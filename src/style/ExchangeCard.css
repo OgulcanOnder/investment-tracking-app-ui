@@ -1,0 +1,18 @@
+.exchange-main {
+  padding: 25px;
+}
+.exchange-category {
+  margin-top: 45px;
+  margin-bottom: 20px;
+}
+.category-border {
+  width: 250px;
+  border: 2px solid gray;
+  border-radius: 10px;
+}
+.exchange-card-main {
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin-top: 40px;
+}

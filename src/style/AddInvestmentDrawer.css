@@ -1,0 +1,145 @@
+/* ─── Trigger Button ─────────────────────────────────────── */
+.trigger-btn {
+  height: 36px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--ant-color-border);
+  background: transparent;
+  color: var(--ant-color-text);
+}
+
+.trigger-btn:hover {
+  border-color: var(--ant-color-primary) !important;
+  color: var(--ant-color-primary) !important;
+  background: transparent !important;
+}
+
+/* ─── Section Label ──────────────────────────────────────── */
+.section-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ant-color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+/* ─── Selected Badge ─────────────────────────────────────── */
+.selected-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1.5px solid var(--ant-color-primary);
+  border-radius: var(--ant-border-radius);
+  background: var(--ant-color-primary-bg);
+  margin-bottom: 12px;
+}
+
+/* ─── Search Input ───────────────────────────────────────── */
+.search-input {
+  margin-bottom: 12px;
+  border: 1.5px solid var(--ant-color-border) !important;
+  border-radius: var(--ant-border-radius) !important;
+  background: var(--ant-color-fill-alter) !important;
+}
+
+.search-input:hover,
+.search-input:focus-within {
+  border-color: var(--ant-color-primary) !important;
+}
+
+.search-input input {
+  background: transparent !important;
+  font-size: 13px;
+}
+
+/* ─── Instrument List ────────────────────────────────────── */
+.instrument-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ant-color-border-secondary) transparent;
+}
+
+/* ─── Instrument Item ────────────────────────────────────── */
+.instrument-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1.5px solid var(--ant-color-border);
+  border-radius: var(--ant-border-radius);
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+  background: var(--ant-color-bg-container);
+}
+
+.instrument-item:hover {
+  border-color: var(--ant-color-primary);
+  background: var(--ant-color-fill-alter);
+}
+
+.instrument-item.selected {
+  border-color: var(--ant-color-primary) !important;
+  background: var(--ant-color-primary-bg) !important;
+}
+
+/* ─── Instrument Item — Inner Text ──────────────────────── */
+.instrument-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ant-color-text);
+  flex: 1;
+}
+
+.instrument-type {
+  font-size: 11px;
+  color: var(--ant-color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.instrument-price {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ant-color-text-secondary);
+}
+
+/* ─── Number Input ───────────────────────────────────────── */
+.number-input {
+  width: 100%;
+  height: 42px;
+  border: 1.5px solid var(--ant-color-border) !important;
+  border-radius: var(--ant-border-radius) !important;
+  background: var(--ant-color-fill-alter) !important;
+  font-size: 14px;
+}
+
+.number-input:hover {
+  border-color: var(--ant-color-primary) !important;
+}
+
+.number-input:focus-within {
+  border-color: var(--ant-color-primary) !important;
+  box-shadow: none !important;
+}
+
+/* ─── Submit Button ──────────────────────────────────────── */
+.submit-btn {
+  width: 100%;
+  height: 42px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
