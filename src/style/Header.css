@@ -15,10 +15,45 @@ body {
 }
 .page-links {
   margin-right: 210px;
+  cursor: pointer;
 }
 
 .title a,
 .page-links a {
   text-decoration: none;
   color: white;
+}
+
+.login-button {
+  width: 150px;
+  height: 40px;
+  cursor: pointer;
+  color: white;
+  background-color: gray;
+  border: 1px solid gray;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: medium;
+}
+
+.register-button {
+  width: 150px;
+  height: 40px;
+  cursor: pointer;
+  color: gray;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: medium;
+}
+
+.login-button:hover {
+  color: gray;
+  background-color: white;
+}
+
+.register-button:hover {
+  background-color: rgba(112, 111, 111, 0.3) !important;
+  color: white !important;
 }
