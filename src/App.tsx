@@ -1,39 +1,35 @@
-import { useEffect, useState } from "react";
-import { Router, Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import ExchangeCard from "./components/ExchangeCard";
 import ForgotPasswordPage from "./components/ForgotPassword";
 import Header from "./components/Header";
 import Investment from "./components/Investment";
 import LoginPage from "./components/Login";
+import Profile from "./components/Profile";
+import ProtectedRoute from "./components/ProtectedRoute";
 import RegisterPage from "./components/Register";
 import ResetPasswordPage from "./components/ResetPassword";
-import { history } from "./history";
+import { setNavigator } from "./navigationService";
+
+const NavigatorSetter = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    setNavigator(navigate);
+  }, [navigate]);
+  return null;
+};
 
 function App() {
-  const [state, setState] = useState({
-    action: history.action,
-    location: history.location,
-  });
-  useEffect(() => {
-    const unlisten = history.listen(setState);
-    return unlisten;
-  }, []);
   return (
     <>
-      <Router
-        location={state.location}
-        navigator={history}
-      >
+      <BrowserRouter>
+        <NavigatorSetter />
         <Header />
         <Routes>
           <Route
             path="/"
             element={<ExchangeCard />}
-          />
-          <Route
-            path="/investment"
-            element={<Investment />}
           />
           <Route
             path="/login"
@@ -51,8 +47,22 @@ function App() {
             path="/reset-password"
             element={<ResetPasswordPage />}
           />
+          <Route element={<ProtectedRoute />}>
+            <Route
+              path="/investment"
+              element={<Investment />}
+            />
+            <Route
+              path="/profile"
+              element={<Profile />}
+            />
+          </Route>
+          <Route
+            path="*"
+            element={<div>Sayfa Bulunamadı</div>}
+          />
         </Routes>
-      </Router>
+      </BrowserRouter>
     </>
   );
 }

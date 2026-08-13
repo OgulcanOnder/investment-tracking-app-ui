@@ -4,14 +4,16 @@ import "../style/LoginForm.css";
 import { Login } from "../data/login";
 import { login } from "../service/AuthenticationService";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/useAuthStore";
 
 const LoginPage = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const storeLogin = useAuthStore((state) => state.login);
   const onFinish = async (values: Login) => {
     try {
       const response = await login(values);
-      localStorage.setItem("accessToken", response.accessToken);
+      storeLogin(response.accessToken);
       localStorage.setItem("refreshToken", response.refreshToken);
       message.success("Successful Sign in");
 

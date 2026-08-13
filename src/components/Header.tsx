@@ -7,6 +7,7 @@ import { useState } from "react";
 import { JwtToken } from "../data/JwtPayload";
 import { jwtDecode } from "jwt-decode";
 import { logoutRequest } from "../data/apiClient";
+import { useAuthStore } from "../store/useAuthStore";
 
 const getUser = (): JwtToken | null => {
   const token = localStorage.getItem("accessToken");
@@ -30,6 +31,7 @@ const Header = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const user = getUser();
+  const storeLogout = useAuthStore((state) => state.logout);
 
   const hide = () => {
     setOpen(false);
@@ -42,8 +44,11 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       await logoutRequest();
+    } catch (error: any) {
+      console.error(error.response);
+      navigate("/login");
     } finally {
-      localStorage.removeItem("accessToken");
+      storeLogout();
       localStorage.removeItem("refreshToken");
       navigate("/login");
     }
