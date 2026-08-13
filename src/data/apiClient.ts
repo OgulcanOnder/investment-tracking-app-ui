@@ -1,5 +1,6 @@
 import axios from "axios";
-import { history } from "../history";
+import { navigateTo } from "../navigationService";
+import { useAuthStore } from "../store/useAuthStore";
 
 const axiosInstance = axios.create({
   baseURL: "http://192.168.1.108:8080/api",
@@ -31,8 +32,8 @@ axiosInstance.interceptors.response.use(
       const refreshToken = localStorage.getItem("refreshToken");
 
       if (!refreshToken) {
-        localStorage.removeItem("accessToken");
-        history.push("/login");
+        useAuthStore.getState().logout();
+        navigateTo("/login");
         return Promise.reject(error);
       }
 
@@ -48,16 +49,16 @@ axiosInstance.interceptors.response.use(
         );
         console.log("Refresh Response:", response.data);
         const { newAccessToken, newRefreshToken } = response.data;
-        localStorage.setItem("accessToken", newAccessToken);
+        useAuthStore.getState().login(newAccessToken);
         localStorage.setItem("refreshToken", newRefreshToken);
         axiosInstance.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         console.error("Refresh Faield:", refreshError);
-        localStorage.removeItem("accessToken");
+        useAuthStore.getState().logout();
         localStorage.removeItem("refreshToken");
-        history.push("/login");
+        navigateTo("/login");
         return Promise.reject(refreshError);
       }
     }

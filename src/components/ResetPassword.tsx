@@ -4,12 +4,14 @@ import { ResetPassword } from "../data/ResetPassword";
 import { resetPassword } from "../service/AuthenticationService";
 import "../style/ResetPassword.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useAuthStore } from "../store/useAuthStore";
 
 const ResetPasswordPage = () => {
   const [form] = Form.useForm();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const token = searchParams.get("token");
+  const storeLogout = useAuthStore((state) => state.logout);
   const onFinish = async (values: ResetPassword) => {
     try {
       if (!token) {
@@ -22,7 +24,7 @@ const ResetPasswordPage = () => {
       };
       await resetPassword(resetPasswordRequest);
       message.success("Reset Password Successful");
-      localStorage.removeItem("accessToken");
+      storeLogout();
       localStorage.removeItem("refreshToken");
       navigate("/login");
     } catch (error: any) {
