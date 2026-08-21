@@ -109,31 +109,6 @@ const Header = () => {
     },
   ];
 
-  //   return (
-  //     <div className="header-main">
-  //       <div className="title">
-  //         <Link to="">
-  //           <h2>Exchange</h2>
-  //         </Link>
-  //       </div>
-  //       <div className="page-links">
-  //         <Popover
-  //           content={guestContent}
-  //           // title="Hoşgeldiniz"
-  //           trigger="click"
-  //           open={open}
-  //           onOpenChange={handleOpenChange}
-  //         >
-  //           <Avatar
-  //             size="large"
-  //             icon={<UserOutlined />}
-  //           />
-  //         </Popover>
-  //       </div>
-  //     </div>
-  //   );
-  // };
-
   return (
     <div className="header-main">
       <div className="title">
@@ -151,7 +126,7 @@ const Header = () => {
           >
             <Avatar
               size="large"
-              style={{ backgroundColor: "#5d6063", cursor: "pointer", userSelect: "none" }}
+              className="header-avatar"
             >
               {getInitials(user)}
             </Avatar>
@@ -167,7 +142,7 @@ const Header = () => {
             <Avatar
               size="large"
               icon={<UserOutlined />}
-              style={{ cursor: "pointer" }}
+              className="header-avatar"
             />
           </Popover>
         )}

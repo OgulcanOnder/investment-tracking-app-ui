@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { UpdatePassword } from "../data/UpdatePassword";
 import { updatePassword } from "../service/AuthenticationService";
 import { useAuthStore } from "../store/useAuthStore";
+import "../style/UpdatePasswordDrawer.css";
 
 const { Text } = Typography;
 
@@ -52,16 +53,22 @@ const UpdatePasswordDrawer = ({ open, onClose }: UpdatePasswordDrawerProps) => {
 
   return (
     <Drawer
-      title="Update Password"
+      className="upd-drawer"
+      title={<span className="upd-drawer-title">Update Password</span>}
       placement="right"
       onClose={handleClose}
       open={open}
       width={420}
       footer={
-        <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
-          <Button onClick={handleClose}>Cancel</Button>
+        <div className="upd-drawer-footer">
           <Button
-            type="primary"
+            className="upd-btn-cancel"
+            onClick={handleClose}
+          >
+            Cancel
+          </Button>
+          <Button
+            className="upd-btn-primary"
             loading={loading}
             onClick={() => form.submit()}
           >
@@ -70,73 +77,82 @@ const UpdatePasswordDrawer = ({ open, onClose }: UpdatePasswordDrawerProps) => {
         </div>
       }
     >
-      <Text
-        type="secondary"
-        style={{ display: "block", marginBottom: 24 }}
-      >
-        Choose a strong password you haven't used before.
-      </Text>
-
-      <Form
-        form={form}
-        layout="vertical"
-        onFinish={handleSubmit}
-        requiredMark={false}
-      >
-        <Form.Item
-          label="Current Password"
-          name="oldPassword"
-          rules={[
-            { required: true, message: "Please input your Password!" },
-            { min: 8, message: "Password must be at least 8 characters" },
-            { max: 255, message: "Password must be no more than 255 characters long" },
-            { pattern: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*]).*$/, message: "Password must contain at least one digit, lowercase, uppercase, and special character" },
-          ]}
+      <div className="upd-drawer-content">
+        <Text
+          type="secondary"
+          className="upd-hint-text"
         >
-          <Input.Password
-            prefix={<LockOutlined />}
-            placeholder="Current password"
-          />
-        </Form.Item>
+          Choose a strong password you haven't used before.
+        </Text>
 
-        <Form.Item
-          label="New Password"
-          name="newPassword"
-          rules={[
-            { required: true, message: "Please input your Password!" },
-            { min: 8, message: "Password must be at least 8 characters" },
-            { max: 255, message: "Password must be no more than 255 characters long" },
-            { pattern: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*]).*$/, message: "Password must contain at least one digit, lowercase, uppercase, and special character" },
-          ]}
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleSubmit}
+          requiredMark={false}
+          className="upd-form"
         >
-          <Input.Password
-            prefix={<LockOutlined />}
-            placeholder="New password"
-          />
-        </Form.Item>
+          <Form.Item
+            label="Current Password"
+            name="oldPassword"
+            rules={[
+              { required: true, message: "Please input your Password!" },
+              { min: 8, message: "Password must be at least 8 characters" },
+              { max: 255, message: "Password must be no more than 255 characters long" },
+              { pattern: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*]).*$/, message: "Password must contain at least one digit, lowercase, uppercase, and special character" },
+            ]}
+            className="upd-form-item"
+          >
+            <Input.Password
+              prefix={<LockOutlined className="upd-input-icon" />}
+              placeholder="Current password"
+              className="upd-input"
+            />
+          </Form.Item>
 
-        <Form.Item
-          label="Confirm New Password"
-          name="confirmNewPassword"
-          dependencies={["newPassword"]}
-          rules={[
-            { required: true, message: "Please confirm your new password." },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue("newPassword") === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(new Error("Passwords do not match."));
-              },
-            }),
-          ]}
-        >
-          <Input.Password
-            prefix={<LockOutlined />}
-            placeholder="Confirm new password"
-          />
-        </Form.Item>
-      </Form>
+          <Form.Item
+            label="New Password"
+            name="newPassword"
+            rules={[
+              { required: true, message: "Please input your Password!" },
+              { min: 8, message: "Password must be at least 8 characters" },
+              { max: 255, message: "Password must be no more than 255 characters long" },
+              { pattern: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*]).*$/, message: "Password must contain at least one digit, lowercase, uppercase, and special character" },
+            ]}
+            className="upd-form-item"
+          >
+            <Input.Password
+              prefix={<LockOutlined className="upd-input-icon" />}
+              placeholder="New password"
+              className="upd-input"
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Confirm New Password"
+            name="confirmNewPassword"
+            dependencies={["newPassword"]}
+            rules={[
+              { required: true, message: "Please confirm your new password." },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("newPassword") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("Passwords do not match."));
+                },
+              }),
+            ]}
+            className="upd-form-item"
+          >
+            <Input.Password
+              prefix={<LockOutlined className="upd-input-icon" />}
+              placeholder="Confirm new password"
+              className="upd-input"
+            />
+          </Form.Item>
+        </Form>
+      </div>
     </Drawer>
   );
 };

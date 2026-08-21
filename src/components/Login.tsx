@@ -69,7 +69,7 @@ const LoginPage = () => {
             >
               <a
                 href="/forgot-password"
-                style={{ color: "black", fontWeight: "bold" }}
+                className="login-link-dark"
               >
                 Forgot Password
               </a>
@@ -84,13 +84,18 @@ const LoginPage = () => {
             >
               Sign in
             </Button>
-            or{" "}
-            <a
-              href="/register"
-              style={{ color: "black", fontWeight: "bold" }}
+            <span
+              className="or-text"
+              style={{ display: "block", marginTop: 14 }}
             >
-              Register Now!
-            </a>
+              or{" "}
+              <a
+                href="/register"
+                className="login-link-dark"
+              >
+                Register Now!
+              </a>
+            </span>
           </Form.Item>
         </Form>{" "}
       </div>

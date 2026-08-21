@@ -1,145 +1,102 @@
-/* ─── Trigger Button ─────────────────────────────────────── */
 .trigger-btn {
-  height: 36px;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  border: 1.5px solid var(--ant-color-border);
-  background: transparent;
-  color: var(--ant-color-text);
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+  color: #0f172a;
+  background: linear-gradient(135deg, #34d399, #22d3ee);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .trigger-btn:hover {
-  border-color: var(--ant-color-primary) !important;
-  color: var(--ant-color-primary) !important;
-  background: transparent !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(52, 211, 153, 0.35);
+  color: #0f172a !important;
+  background: linear-gradient(135deg, #34d399, #22d3ee) !important;
 }
 
-/* ─── Section Label ──────────────────────────────────────── */
 .section-label {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--ant-color-text-tertiary);
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-bottom: 8px;
+  color: rgba(226, 232, 240, 0.6);
 }
 
-/* ─── Selected Badge ─────────────────────────────────────── */
 .selected-badge {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  border: 1.5px solid var(--ant-color-primary);
-  border-radius: var(--ant-border-radius);
-  background: var(--ant-color-primary-bg);
+  gap: 10px;
+  padding: 10px 12px;
   margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  background: rgba(52, 211, 153, 0.08);
 }
 
-/* ─── Search Input ───────────────────────────────────────── */
 .search-input {
+  border-radius: 10px;
   margin-bottom: 12px;
-  border: 1.5px solid var(--ant-color-border) !important;
-  border-radius: var(--ant-border-radius) !important;
-  background: var(--ant-color-fill-alter) !important;
 }
 
-.search-input:hover,
-.search-input:focus-within {
-  border-color: var(--ant-color-primary) !important;
-}
-
-.search-input input {
-  background: transparent !important;
-  font-size: 13px;
-}
-
-/* ─── Instrument List ────────────────────────────────────── */
 .instrument-list {
+  max-height: 300px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 6px;
-  max-height: 240px;
-  overflow-y: auto;
-  padding-right: 4px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--ant-color-border-secondary) transparent;
 }
 
-/* ─── Instrument Item ────────────────────────────────────── */
 .instrument-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border: 1.5px solid var(--ant-color-border);
-  border-radius: var(--ant-border-radius);
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid transparent;
   cursor: pointer;
   transition:
-    border-color 0.15s,
-    background 0.15s;
-  background: var(--ant-color-bg-container);
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .instrument-item:hover {
-  border-color: var(--ant-color-primary);
-  background: var(--ant-color-fill-alter);
+  background: rgba(148, 163, 184, 0.08);
 }
 
 .instrument-item.selected {
-  border-color: var(--ant-color-primary) !important;
-  background: var(--ant-color-primary-bg) !important;
+  border-color: rgba(52, 211, 153, 0.45);
+  background: rgba(52, 211, 153, 0.08);
 }
 
-/* ─── Instrument Item — Inner Text ──────────────────────── */
 .instrument-name {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
-  color: var(--ant-color-text);
-  flex: 1;
 }
 
 .instrument-type {
-  font-size: 11px;
-  color: var(--ant-color-text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-size: 12px;
+  color: rgba(128, 128, 128, 0.8);
 }
 
 .instrument-price {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--ant-color-text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  color: #34d399;
 }
 
-/* ─── Number Input ───────────────────────────────────────── */
 .number-input {
   width: 100%;
-  height: 42px;
-  border: 1.5px solid var(--ant-color-border) !important;
-  border-radius: var(--ant-border-radius) !important;
-  background: var(--ant-color-fill-alter) !important;
-  font-size: 14px;
+  border-radius: 10px;
 }
 
-.number-input:hover {
-  border-color: var(--ant-color-primary) !important;
-}
-
-.number-input:focus-within {
-  border-color: var(--ant-color-primary) !important;
-  box-shadow: none !important;
-}
-
-/* ─── Submit Button ──────────────────────────────────────── */
 .submit-btn {
   width: 100%;
-  height: 42px;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-top: 8px;
+  height: 44px;
+  border-radius: 10px;
+  font-weight: 600;
 }

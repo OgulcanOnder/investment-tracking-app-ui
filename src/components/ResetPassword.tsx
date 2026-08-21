@@ -5,6 +5,7 @@ import { resetPassword } from "../service/AuthenticationService";
 import "../style/ResetPassword.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
+import { useEffect } from "react";
 
 const ResetPasswordPage = () => {
   const [form] = Form.useForm();
@@ -12,12 +13,16 @@ const ResetPasswordPage = () => {
   const navigate = useNavigate();
   const token = searchParams.get("token");
   const storeLogout = useAuthStore((state) => state.logout);
+  useEffect(() => {
+    if (!token) {
+      message.error("Invalid reset password link");
+      navigate("/forgot-password", { replace: true });
+      return;
+    }
+  }, []);
+  if (!token) return null;
   const onFinish = async (values: ResetPassword) => {
     try {
-      if (!token) {
-        message.error("Invalid reset password link");
-        return;
-      }
       const resetPasswordRequest: ResetPassword = {
         newPassword: values.newPassword,
         token: token,

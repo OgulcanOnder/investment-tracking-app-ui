@@ -2,58 +2,112 @@ body {
   margin: 0;
   padding: 0;
 }
+
 .header-main {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   width: 100%;
-  height: 80px;
-  padding: 25px;
-  background-color: gray;
+  height: 72px;
+  padding: 0 32px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  box-shadow: 0 4px 24px rgba(2, 6, 23, 0.35);
+  box-sizing: border-box;
 }
+
 .title {
-  margin-left: 35px;
+  margin-left: 8px;
 }
+
+.title h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  background: linear-gradient(90deg, #34d399, #22d3ee);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: opacity 0.2s ease;
+}
+
+.title a:hover h2 {
+  opacity: 0.85;
+}
+
 .page-links {
-  margin-right: 210px;
+  margin-right: 8px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.header-avatar {
+  background: linear-gradient(135deg, #059669, #0891b2) !important;
+  border: 2px solid rgba(148, 163, 184, 0.25);
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.header-avatar:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.25);
 }
 
 .title a,
 .page-links a {
   text-decoration: none;
-  color: white;
+  color: #e2e8f0;
 }
 
 .login-button {
   width: 150px;
   height: 40px;
   cursor: pointer;
-  color: white;
-  background-color: gray;
-  border: 1px solid gray;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: medium;
+  color: #0f172a;
+  background: linear-gradient(135deg, #34d399, #22d3ee);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .register-button {
   width: 150px;
   height: 40px;
   cursor: pointer;
-  color: gray;
-  background-color: white;
-  border: 1px solid gray;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: medium;
+  color: #34d399;
+  background: transparent;
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .login-button:hover {
-  color: gray;
-  background-color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(52, 211, 153, 0.35);
+  color: #0f172a;
+  background: linear-gradient(135deg, #34d399, #22d3ee);
 }
 
 .register-button:hover {
-  background-color: rgba(112, 111, 111, 0.3) !important;
-  color: white !important;
+  background: rgba(52, 211, 153, 0.12) !important;
+  color: #34d399 !important;
 }
