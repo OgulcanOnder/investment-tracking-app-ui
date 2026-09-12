@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
+import DebtPage from "./components/Debt";
 import ExchangeCard from "./components/ExchangeCard";
 import ForgotPasswordPage from "./components/ForgotPassword";
 import Header from "./components/Header";
@@ -55,6 +56,10 @@ function App() {
             <Route
               path="/profile"
               element={<Profile />}
+            />
+            <Route
+              path="/debts"
+              element={<DebtPage />}
             />
           </Route>
           <Route

@@ -1,0 +1,206 @@
+:root {
+  --color-border: rgba(148, 163, 184, 0.14);
+  --border-radius-lg: 14px;
+  --border-radius: 10px;
+  --color-fill-alter: rgba(148, 163, 184, 0.08);
+  --color-text-secondary: rgba(226, 232, 240, 0.55);
+  --color-text-tertiary: rgba(226, 232, 240, 0.35);
+  --accent-green: #34d399;
+  --accent-cyan: #22d3ee;
+  --danger: #f87171;
+}
+
+.debt-main {
+  width: 100%;
+  min-height: calc(100vh - 72px);
+  padding: 40px;
+  background: #0b1120;
+  box-sizing: border-box;
+}
+
+.total-main {
+  width: 520px;
+  max-width: 100%;
+  padding: 32px 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 16px;
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  background: radial-gradient(120% 160% at 0% 0%, rgba(52, 211, 153, 0.18), transparent 55%), radial-gradient(120% 160% at 100% 100%, rgba(34, 211, 238, 0.14), transparent 55%), rgba(15, 23, 42, 0.8);
+  box-shadow: 0 12px 32px rgba(2, 6, 23, 0.5);
+  box-sizing: border-box;
+}
+
+.total-main h3 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.total-main p {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(90deg, #34d399, #22d3ee);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.debt-title {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 36px;
+  padding: 0 0 0 4px;
+}
+
+.debt-title h4 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: #f1f5f9;
+}
+
+.category-border {
+  flex: 1;
+  max-width: 260px;
+  margin: 0;
+  border: 0;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #34d399, #22d3ee);
+  opacity: 0.9;
+}
+
+.debt-card-main {
+  margin-top: 16px;
+}
+
+.card {
+  width: 480px;
+  max-width: 100%;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(52, 211, 153, 0.4);
+  box-shadow: 0 14px 36px rgba(2, 6, 23, 0.55);
+}
+
+.card .ant-divider {
+  border-color: rgba(148, 163, 184, 0.15);
+}
+
+.debt-image-placeholder {
+  width: 90px;
+  height: 90px;
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.debtType-icon {
+  font-size: 90px !important;
+  margin-bottom: 5px;
+}
+.title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e2e8f0 !important;
+  margin: 0 0 10px 0 !important;
+  letter-spacing: 0.01em;
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 3px 0;
+}
+
+.value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0 !important;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.total-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.total-value {
+  font-size: 17px;
+  font-weight: 700;
+  color: #f1f5f9 !important;
+}
+
+.edit-btn {
+  flex: 1;
+  height: 36px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #34d399;
+  border-color: rgba(52, 211, 153, 0.4);
+  background: transparent;
+  border-radius: 8px;
+}
+
+.edit-btn:hover {
+  color: #34d399 !important;
+  border-color: #34d399 !important;
+  background: rgba(52, 211, 153, 0.1) !important;
+}
+
+.delete-btn {
+  flex: 1;
+  height: 36px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--danger);
+  border-color: rgba(248, 113, 113, 0.4);
+  background: transparent;
+  border-radius: 8px;
+}
+
+.delete-btn:hover {
+  color: var(--danger) !important;
+  border-color: var(--danger) !important;
+  background: rgba(248, 113, 113, 0.1) !important;
+}

@@ -1,7 +1,7 @@
 import "../style/Header.css";
 import "antd/dist/reset.css";
 import { Link, useNavigate } from "react-router-dom";
-import { UserOutlined, IdcardOutlined, FundOutlined, LogoutOutlined } from "@ant-design/icons";
+import { UserOutlined, IdcardOutlined, FundOutlined, LogoutOutlined, WalletOutlined } from "@ant-design/icons";
 import { Avatar, Dropdown, MenuProps, Popover } from "antd";
 import { useState } from "react";
 import { JwtToken } from "../data/JwtPayload";
@@ -98,6 +98,12 @@ const Header = () => {
       key: "Investment",
       icon: <FundOutlined />,
       label: <Link to="/investment">Investment</Link>,
+    },
+
+    {
+      key: "Debt",
+      icon: <WalletOutlined />,
+      label: <Link to="/debts">Debt</Link>,
     },
     { type: "divider" },
     {
