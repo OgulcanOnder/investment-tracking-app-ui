@@ -1,3 +1,4 @@
+import { notification } from "antd";
 import axios from "axios";
 import { navigateTo } from "../navigationService";
 import { useAuthStore } from "../store/useAuthStore";
@@ -61,6 +62,19 @@ axiosInstance.interceptors.response.use(
         navigateTo("/login");
         return Promise.reject(refreshError);
       }
+    }
+
+    if (error.response?.status === 403) {
+      notification.error({
+        message: "Hata",
+        description: error.response?.data?.message || "Beklenmeyen bir hata oluştu",
+        placement: "topRight",
+        duration: 3,
+      });
+      useAuthStore.getState().logout();
+      localStorage.removeItem("accessToken");
+      navigateTo("/login");
+      return Promise.reject(error);
     }
     return Promise.reject(error);
   },

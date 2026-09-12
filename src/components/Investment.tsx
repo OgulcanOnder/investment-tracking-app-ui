@@ -483,7 +483,7 @@ const EditInvestmentDrawer = ({ investment, onClose, onSuccess }: EditInvestment
 
 const Investment = () => {
   const [investments, setInvestments] = useState<InvestmentDTO[]>([]);
-  const [totalInvestment, setTotalInvestment] = useState([]);
+  const [totalInvestment, setTotalInvestment] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [editingInvestment, setEditingInvestment] = useState<InvestmentDTO | null>(null);
 
@@ -513,8 +513,10 @@ const Investment = () => {
       okType: "danger",
       cancelText: "Vazgeç",
       onOk: async () => {
-        await deleteInvestment(id);
-        fetchInvestments();
+        try {
+          await deleteInvestment(id);
+          fetchInvestments();
+        } catch {}
       },
     });
   };
@@ -535,7 +537,7 @@ const Investment = () => {
     <div className="investment-main">
       <div className="total-main">
         <h3>TOPLAM VARLIKLAR</h3>
-        <p>{totalInvestment} ₺</p>
+        <p>{formatCurrency(totalInvestment)}</p>
       </div>
 
       <div className="investment-title">
