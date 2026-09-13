@@ -5,7 +5,7 @@ export const createInvestment = async (data: any) => {
   return rest.data;
 };
 
-export const getAllInvestment = async () => {
+export const getAllSummaryInvestment = async () => {
   const rest = await apiClient.get("/v1/investment");
   return rest.data;
 };
@@ -20,7 +20,12 @@ export const updateInvestment = async (id: number, data: any) => {
   return rest.data;
 };
 
-export const deleteInvestment = async (id: number) => {
-  const rest = await apiClient.delete(`/v1/investment/${id}`);
+export const deleteInvestment = async (instrumentsId: number) => {
+  const rest = await apiClient.delete(`/v1/investment/${instrumentsId}`);
   return rest;
+};
+
+export const getLatestInvestmentByInstrumentsId = async (instrumentsId: number) => {
+  const rest = await apiClient.get(`/v1/investment/latest-investment/${instrumentsId}`);
+  return rest.data;
 };
