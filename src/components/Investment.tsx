@@ -1,11 +1,11 @@
 import "../style/Investment.css";
 import "../style/AddInvestmentDrawer.css";
 import { EditOutlined, DeleteOutlined, PictureOutlined, PlusOutlined, SearchOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
-import { Avatar, Button, Card, Divider, Drawer, Flex, Form, Input, InputNumber, Modal, Spin, Typography } from "antd";
-import { InvestmentDTO } from "../data/Investment";
+import { Avatar, Button, Card, Divider, Drawer, Flex, Form, Input, InputNumber, Modal, notification, Spin, Typography } from "antd";
+import { InvestmentDTO, LatestInvestmentResponse } from "../data/Investment";
 import { Instruments } from "../data/Instruments";
 import { useEffect, useState } from "react";
-import { getAllInvestment, getAllTotalInvestment, createInvestment, updateInvestment, deleteInvestment } from "../service/InvestmentService";
+import { getAllSummaryInvestment, getAllTotalInvestment, createInvestment, updateInvestment, deleteInvestment, getLatestInvestmentByInstrumentsId } from "../service/InvestmentService";
 import { getAllInstruments } from "../service/InstrumentService";
 
 const { Text } = Typography;
@@ -15,7 +15,7 @@ const formatCurrency = (value: number) => new Intl.NumberFormat("tr-TR", { style
 interface InvestmentCardProps {
   data: InvestmentDTO;
   onEdit: (investment: InvestmentDTO) => void;
-  onDelete: (id: number) => void;
+  onDelete: (instrumentId: number) => void;
 }
 
 const InvestmentCard = ({ data, onEdit, onDelete }: InvestmentCardProps) => {
@@ -106,7 +106,7 @@ const InvestmentCard = ({ data, onEdit, onDelete }: InvestmentCardProps) => {
         <Button
           className={"delete-btn"}
           icon={<DeleteOutlined />}
-          onClick={() => onDelete(data.id)}
+          onClick={() => onDelete(data.instrumentsId)}
         >
           SİL
         </Button>
@@ -345,52 +345,77 @@ interface EditInvestmentDrawerProps {
 const EditInvestmentDrawer = ({ investment, onClose, onSuccess }: EditInvestmentDrawerProps) => {
   const [submitting, setSubmitting] = useState(false);
   const [selected, setSelected] = useState<Instruments | null>(null);
-  const [instruments, setInstruments] = useState<Instruments[]>([]);
-  const [search, setSearch] = useState("");
+  const [selectedRecord, setSelectedRecord] = useState<LatestInvestmentResponse | null>(null);
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
 
   useEffect(() => {
     if (!investment) return;
-
-    form.setFieldsValue({
-      quantity: investment.totalQuantity,
-      buyPrice: investment.averageCost,
-    });
-
-    const fetchAndPreselect = async () => {
+    let cancelled = false;
+    const init = async () => {
+      setLoading(true);
       try {
         const data = await getAllInstruments();
-        setInstruments(data);
+        if (cancelled) return;
         const match = data.find((i: Instruments) => i.name === investment.instrumentsName);
         if (match) setSelected(match);
+        const latest = await getLatestInvestmentByInstrumentsId(investment.instrumentsId);
+        if (cancelled) return;
+        setSelectedRecord(latest);
       } catch (err) {
-        console.error(err);
+        notification.error({
+          message: "Hata",
+          description: err instanceof Error ? err.message : "Beklenmeyen bir hata oluştu",
+          placement: "topRight",
+          duration: 3,
+        });
+        if (!cancelled) console.error(err);
+      } finally {
+        if (!cancelled) setLoading(false);
       }
     };
-    fetchAndPreselect();
-  }, [investment, form]);
+    init();
 
-  useEffect(() => {}, [search, instruments]);
+    return () => {
+      cancelled = true;
+    };
+  }, [investment]);
+
+  useEffect(() => {
+    if (!selectedRecord) return;
+    form.setFieldValue("quantity", selectedRecord.quantity);
+    form.setFieldValue("buyPrice", selectedRecord.buyPrice);
+  }, [form, selectedRecord]);
 
   const handleClose = () => {
     setSelected(null);
-    setSearch("");
+    setSelectedRecord(null);
     form.resetFields();
     onClose();
   };
 
   const handleSubmit = async (values: { quantity: number; buyPrice: number }) => {
-    if (!investment || !selected) return;
+    if (!selected || !selectedRecord) return;
     setSubmitting(true);
     try {
-      await updateInvestment(investment.id, {
+      await updateInvestment(selectedRecord.id, {
         instrumentsId: selected.id,
         quantity: values.quantity,
         buyPrice: values.buyPrice,
       });
       handleClose();
       onSuccess();
+      notification.success({
+        message: "Başarılı",
+        description: "Yatırım başarıyla düzenlendi",
+      });
     } catch (err) {
+      notification.error({
+        message: "Hata",
+        description: err instanceof Error ? err.message : "Yatırım düzenlenirken beklenmeyen bir hata oluştu",
+        placement: "topRight",
+        duration: 3,
+      });
       console.error(err);
     } finally {
       setSubmitting(false);
@@ -424,59 +449,93 @@ const EditInvestmentDrawer = ({ investment, onClose, onSuccess }: EditInvestment
         )}
       </div>
 
-      <Form
-        form={form}
-        layout="vertical"
-        onFinish={handleSubmit}
-        requiredMark={false}
-      >
-        <Form.Item
-          label={<span className="section-label">Yatırım Adeti</span>}
-          name="quantity"
-          rules={[
-            { required: true, message: "Lütfen adet giriniz." },
-            { type: "number", min: 0.000001, message: "0'dan büyük olmalıdır." },
-          ]}
-          style={{ marginBottom: 16 }}
-        >
-          <InputNumber
-            className="number-input"
-            decimalSeparator=","
-            min={0}
-            step={1}
-          />
-        </Form.Item>
+      {loading ? (
+        <Spin />
+      ) : (
+        <>
+          <div>
+            <p className="section-label">Düzenlenecek Kayıt</p>
+            {selectedRecord && (
+              <div
+                key={selectedRecord.id}
+                style={{
+                  padding: "10px 12px",
+                  marginBottom: 8,
+                  borderRadius: 8,
+                  border: `1px solid ${selectedRecord?.id ? "var(--ant-color-primary)" : "var(--ant-color-border-secondary)"}`,
+                  cursor: "pointer",
+                }}
+              >
+                <Text
+                  type="secondary"
+                  style={{ fontSize: 12 }}
+                >
+                  {selectedRecord.buyDate && new Date(selectedRecord.buyDate).toLocaleDateString("tr-TR")}
+                </Text>
+                <div style={{ display: "flex", gap: 16, marginTop: 4 }}>
+                  <Text style={{ fontSize: 13 }}>Adet: {selectedRecord.quantity}</Text>
+                  <Text style={{ fontSize: 13 }}>Fiyat: ₺{selectedRecord.buyPrice.toLocaleString("tr-TR")}</Text>
+                </div>
+              </div>
+            )}
+          </div>
+          {selectedRecord && (
+            <Form
+              form={form}
+              layout="vertical"
+              onFinish={handleSubmit}
+              requiredMark={false}
+            >
+              <Form.Item
+                label={<span className="section-label">Yatırım Adeti</span>}
+                name="quantity"
+                rules={[
+                  { required: true, message: "Lütfen adet giriniz." },
+                  { type: "number", min: 0.000001, message: "0'dan büyük olmalıdır." },
+                ]}
+                style={{ marginBottom: 16 }}
+              >
+                <InputNumber
+                  className="number-input"
+                  decimalSeparator=","
+                  min={0}
+                  step={1}
+                />
+              </Form.Item>
 
-        <Form.Item
-          label={<span className="section-label">Alım Fiyatı (₺)</span>}
-          name="buyPrice"
-          rules={[
-            { required: true, message: "Lütfen alım fiyatı giriniz." },
-            { type: "number", min: 0.01, message: "En az 0,01 olmalıdır." },
-          ]}
-          style={{ marginBottom: 16 }}
-        >
-          <InputNumber
-            className="number-input"
-            decimalSeparator=","
-            precision={2}
-            min={0.01}
-            step={0.01}
-          />
-        </Form.Item>
+              <Form.Item
+                label={<span className="section-label">Alım Fiyatı (₺)</span>}
+                name="buyPrice"
+                rules={[
+                  { required: true, message: "Lütfen alım fiyatı giriniz." },
+                  { type: "number", min: 0.01, message: "En az 0,01 olmalıdır." },
+                ]}
+                style={{ marginBottom: 16 }}
+              >
+                <InputNumber
+                  className="number-input"
+                  decimalSeparator=","
+                  precision={2}
+                  min={0.01}
+                  step={0.01}
+                />
+              </Form.Item>
 
-        <Form.Item style={{ marginBottom: 0 }}>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="submit-btn"
-            loading={submitting}
-            disabled={!selected}
-          >
-            Güncelle
-          </Button>
-        </Form.Item>
-      </Form>
+              <Form.Item style={{ marginBottom: 0 }}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className="submit-btn"
+                  loading={submitting}
+                  disabled={!selected}
+                >
+                  Güncelle
+                </Button>
+              </Form.Item>
+            </Form>
+          )}
+        </>
+      )}
     </Drawer>
   );
 };
@@ -489,7 +548,7 @@ const Investment = () => {
 
   const fetchInvestments = async () => {
     try {
-      const results = await getAllInvestment();
+      const results = await getAllSummaryInvestment();
       setInvestments(results);
       const totalResults = await getAllTotalInvestment();
       setTotalInvestment(totalResults);
@@ -504,7 +563,7 @@ const Investment = () => {
     fetchInvestments();
   }, []);
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (instrumentsId: number) => {
     Modal.confirm({
       title: "Yatırımı sil",
       icon: <ExclamationCircleOutlined />,
@@ -514,7 +573,7 @@ const Investment = () => {
       cancelText: "Vazgeç",
       onOk: async () => {
         try {
-          await deleteInvestment(id);
+          await deleteInvestment(instrumentsId);
           fetchInvestments();
         } catch {}
       },
@@ -554,7 +613,7 @@ const Investment = () => {
         >
           {investments.map((investment) => (
             <InvestmentCard
-              key={investment.id}
+              key={investment.instrumentsId}
               data={investment}
               onEdit={setEditingInvestment}
               onDelete={handleDelete}

@@ -10,3 +10,12 @@ export interface InvestmentDTO {
   profitLossPercent: number;
   totalValue: number;
 }
+
+export interface LatestInvestmentResponse {
+  id: number;
+  instrumentsId: number;
+  instrumentsName: string;
+  quantity: number;
+  buyPrice: number;
+  buyDate: string;
+}
